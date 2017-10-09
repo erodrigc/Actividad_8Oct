@@ -1,0 +1,30 @@
+# Actividad_8Oct
+/*
+2. Create 3 Tablespaces (0.2)​:
+a. first one with 1 Gb and 3 datafiles, tablespace should be named "gofar_travel"
+b. second one with 500 Mb and 1 datafile, named "test_purposes".
+c. Undo tablespace with 5Mb of space and 1 datafile
+*/
+
+-- a.
+CREATE TABLESPACE gofar_travel DATAFILE '/u01/app/oracle/oradata/XE/gofar_travel01.dbf' SIZE 333M
+    EXTENT MANAGEMENT LOCAL 
+    SEGMENT SPACE MANAGEMENT AUTO;
+
+ALTER TABLESPACE gofar_travel 
+	ADD DATAFILE '/u01/app/oracle/oradata/XE/gofar_travel02.dbf' SIZE 333M;
+
+ALTER TABLESPACE gofar_travel 
+	ADD DATAFILE '/u01/app/oracle/oradata/XE/gofar_travel03.dbf' SIZE 333M;
+
+--b.
+CREATE TABLESPACE test_purposes DATAFILE '/u01/app/oracle/oradata/XE/test_purposes01.dbf' SIZE 500M
+    EXTENT MANAGEMENT LOCAL 
+    SEGMENT SPACE MANAGEMENT AUTO;
+--c.
+CREATE UNDO TABLESPACE UNDOTBS DATAFILE '/u01/app/oracle/oradata/XE/undotbs_01.dbf' SIZE 5M;
+
+/*
+3. Set the undo tablespace to be used in the system (0.2)
+*/
+ALTER SYSTEM SET UNDO_TABLESPACE = UNDOTBS;
