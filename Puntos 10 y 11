@@ -118,3 +118,284 @@ ALTER TABLE "Tradein_Vehicles" ADD CONSTRAINT "fk_Models_TradeinVehicles" FOREIG
 -- CREATING VALIDATION CHECK CONSTRAINT
 
 ALTER TABLE "Vehicles" ADD CONSTRAINT "CK_Type_Vehicle" CHECK ("type" IN ('New','Used'));
+
+-- CREATING SEQUENCES
+
+
+CREATE SEQUENCE seq_vehicles START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_customers START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_tradeinvehicles START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_options START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_models START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_manufacturers START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_trademarks START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_invoicedetails START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_salespersons START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_invoices START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_optiontypes START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+
+
+
+-- INSERTING RECORDS
+
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Wade Rogers','P.O. Box 901, 9811 Massa. Av.','222-3050');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Brenden Rivers','5306 A, Rd.','214-1886');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Mollie Dean','981 Metus Av.','503-0322');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Ashton Harrison','Ap #964-5256 At Ave','927-8063');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Hayden Riddle','2214 Lacinia. Road','595-3878');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Nigel Becker','1541 Purus. Rd.','379-2271');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Gloria Franks','Ap #274-8772 Nullam Road','059-0346');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Honorato Dyer','9331 Odio Avenue','309-0159');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Brandon Chang','Ap #341-1239 Pharetra. Av.','891-7511');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Jana Bridges','P.O. Box 635, 2717 Lectus. St.','790-8130');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Vera Small','932-7567 Non, Rd.','699-8144');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Kibo Blevins','874-9717 Ut, Rd.','228-8423');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Colt Potter','150-4994 Dolor Rd.','623-8891');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Joshua Mcpherson','1762 Metus. Avenue','066-9756');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Noelle Jones','P.O. Box 284, 9935 Non, Rd.','195-1584');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Jelani Jones','P.O. Box 366, 849 Urna Road','659-0421');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Victor Olsen','1070 Rhoncus. Av.','843-6213');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Sawyer Mays','5790 Consequat, St.','423-8422');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Merritt Rosario','199 Auctor St.','326-6826');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Reed Wheeler','P.O. Box 150, 7792 Eu Rd.','913-8308');
+
+--SELECT * FROM "Customers";
+
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Mazda');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Renault');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Chevrolet');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Kia');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Ford');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Toyota');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Volswagen');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'BMW');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Audi');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Pegout');
+
+--SELECT * FROM "Trademarks";
+
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '323');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '3');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '626');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '6');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '2');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 2, 'Twingo');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 2, 'Clío');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 3, 'Spark');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 3, 'Spark GT');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 3, 'Aveo');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 4, 'Río');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 4, 'Space');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 5, 'Prado');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 6, 'Gol');
+
+--SELECT * FROM "Models";
+
+INSERT INTO "Manufacturers" ("id","name") VALUES (seq_manufacturers.nextval, 'Casa Británica');
+INSERT INTO "Manufacturers" ("id","name") VALUES (seq_manufacturers.nextval, 'Colmotores');
+INSERT INTO "Manufacturers" ("id","name") VALUES (seq_manufacturers.nextval, 'Sofasa');
+INSERT INTO "Manufacturers" ("id","name") VALUES (seq_manufacturers.nextval, 'Colombiana Automotriz');
+
+--SELECT * FROM "Manufacturers";
+
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'176167 -9248','Basil Trujillo');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'837473 -6133','Imelda Bullock');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'939552 -9234','Dale Walls');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'978689 -5798','Rafael Curtis');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'445542 -2461','Carlos Barry');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'868612 -8052','Molly Oneill');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'887238 -9278','Jemima Leonard');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'497239 -8269','Nola Gonzales');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'802422 -6519','Isabella Bridges');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'639468 -2220','Isabella Ward');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'477279 -4220','Linda Murphy');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'339868 -1688','Cleo Moody');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'294921 -6440','Zahir Allen');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'849694 -6743','Maggie Doyle');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'629206 -9611','Ashton Rodriquez');
+
+--SELECT * FROM "Salespersons";
+
+INSERT INTO "Option_Types" ("id","description") VALUES (seq_optiontypes.nextval,'Estufa');
+INSERT INTO "Option_Types" ("id","description") VALUES (seq_optiontypes.nextval,'Nevera');
+INSERT INTO "Option_Types" ("id","description") VALUES (seq_optiontypes.nextval,'Extintor');
+INSERT INTO "Option_Types" ("id","description") VALUES (seq_optiontypes.nextval,'Microondas');
+INSERT INTO "Option_Types" ("id","description") VALUES (seq_optiontypes.nextval,'Iluminación Especial');
+INSERT INTO "Option_Types" ("id","description") VALUES (seq_optiontypes.nextval,'Mejores Asientos');
+INSERT INTO "Option_Types" ("id","description") VALUES (seq_optiontypes.nextval,'Televisor');
+
+--SELECT * FROM "Salespersons";
+
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'UU198897',7,'6113','13455');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'IE099479',1,'7480','13026');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'CO173453',7,'8918','10552');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'NU996924',6,'8821','10281');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'NI323799',2,'8310','13363');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'GI510016',6,'9251','11802');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'PO714937',2,'6767','12522');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'XA408811',4,'7603','10617');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'KU316656',7,'5863','12924');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'XE425606',2,'9806','11389');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'BO287776',3,'6059','12476');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'FI490353',1,'9720','14932');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'TO769234',6,'5627','11125');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'JO701105',2,'9705','10020');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'OA834030',3,'8745','14714');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'SA883948',7,'8352','12362');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'GU331335',3,'9344','14074');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'CU400909',4,'6843','10648');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'AA306052',4,'7077','14777');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'UU810592',3,'6226','11204');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'GA126403',2,'6455','10358');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'UI768300',5,'9928','10440');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'TO151337',1,'8784','13640');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'GU903763',7,'8061','13168');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'DO959614',4,'7862','11647');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'UO360818',1,'6162','11220');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'BE135720',2,'6010','11505');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'OO665247',7,'8260','12486');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'KA906979',1,'5704','13649');
+INSERT INTO "Options" ("id","code","type_id","cost","price") VALUES (seq_options.nextval,'MA717930',4,'8754','11422');
+
+--SELECT * FROM "Options";
+
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'UEA - 354',12,2017,1,'New','27977037','57086037');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'TOC - 025',7,2012,3,'Used','32129795','69927727');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'QOO - 489',2,2013,3,'Used','29837219','64167115');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'JUT - 099',10,2013,2,'Used','20785892','92180064');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'DIK - 116',4,2011,2,'Used','16624393','92669050');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'BAR - 711',11,2011,3,'Used','21680252','62487792');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'RAO - 506',11,2017,1,'Used','15601227','86722257');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'VEC - 045',12,2014,4,'Used','11151919','66128478');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'DUY - 461',2,2012,3,'Used','39876820','88022162');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'LEC - 794',14,2010,4,'New','26187588','98071954');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'UAM - 548',14,2013,1,'Used','30260321','83114500');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'XAB - 569',14,2010,1,'Used','11215297','73618159');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'NOJ - 678',6,2012,2,'New','20497762','71003918');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'WIX - 458',3,2013,3,'Used','39156034','77313836');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'UEY - 207',11,2014,1,'New','21627927','56474497');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'RUO - 890',2,2015,3,'New','11807329','98227849');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'FUT - 950',9,2013,3,'New','12652136','69239546');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'DUD - 756',12,2011,2,'Used','28376843','61689922');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'JAW - 500',5,2016,1,'Used','27851288','67661285');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'QIX - 765',2,2017,3,'New','22419370','54026298');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'DES - 772',8,2010,4,'Used','13369996','53893315');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'VOZ - 541',1,2010,4,'Used','12531869','82303179');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'RUP - 310',12,2011,1,'New','12124876','64559648');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'UIO - 309',2,2011,4,'New','37414765','62422046');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'JEU - 805',13,2017,4,'Used','13223522','87396011');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'FEQ - 842',13,2016,1,'Used','37847999','71100313');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'XOY - 309',14,2016,4,'New','25663743','61693497');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'QON - 254',7,2016,3,'Used','16170711','59310588');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'UAM - 733',8,2017,4,'Used','22362592','85262408');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'IUO - 605',1,2011,4,'New','25900321','53745389');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'TAX - 513',2,2013,3,'New','31535312','57471310');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'AUJ - 546',8,2016,3,'Used','39487325','71113525');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'HAQ - 201',6,2011,4,'New','23337434','90794915');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'DAL - 918',5,2012,2,'Used','32455300','98115121');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'SAI - 072',2,2017,2,'New','29648935','74740142');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'NIP - 415',6,2016,3,'Used','14778476','59392575');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'QAI - 673',9,2012,2,'Used','18737196','76736904');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'QUJ - 239',10,2014,3,'Used','33943172','89809257');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'EUJ - 513',7,2014,2,'Used','22874944','99061711');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'MOM - 788',8,2010,2,'New','21611003','65341902');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'ZOM - 232',11,2014,4,'New','33454395','83743557');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'ZEH - 211',5,2014,4,'New','39906019','95091495');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'VAU - 346',4,2016,2,'Used','30420880','87552495');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'YUG - 501',2,2012,2,'New','19477818','52482647');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'EAD - 627',1,2013,4,'New','10890712','69184440');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'WUH - 880',11,2010,3,'New','37573043','60428665');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'MAA - 141',4,2017,2,'Used','33225765','64066350');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'QOR - 983',12,2011,2,'Used','13972598','87583220');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'GUM - 699',12,2011,4,'New','19264974','68526064');
+INSERT INTO "Vehicles" ("id","vin","model_id","year","manufacturer_id","type","cost","price") VALUES (seq_vehicles.nextval,'TAM - 748',3,2014,2,'New','10196251','91439913');
+
+
+-- Como los datos fueron generados automáticamente, vamos a actualizar aquellos registros que tienen el año inferior a 2017 para marcarlos como usados
+UPDATE "Vehicles" SET "type" = 'New' WHERE "year" = 2017;
+
+
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'447 - 860 - 179',1,2011);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'636 - 273 - 661',14,2012);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'508 - 669 - 604',9,2011);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'547 - 540 - 926',6,2017);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'618 - 868 - 223',11,2011);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'309 - 836 - 112',11,2010);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'587 - 297 - 367',4,2014);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'508 - 346 - 446',1,2012);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'741 - 569 - 618',4,2010);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'059 - 089 - 389',1,2016);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'774 - 020 - 037',9,2017);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'513 - 066 - 126',10,2010);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'602 - 609 - 559',8,2017);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'312 - 567 - 820',5,2015);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'829 - 920 - 218',12,2010);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'114 - 424 - 283',7,2014);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'484 - 113 - 395',2,2011);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'273 - 720 - 163',12,2014);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'519 - 826 - 179',10,2015);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'426 - 578 - 252',2,2012);
+INSERT INTO "Tradein_Vehicles" ("id","serial_number","model_id","year") VALUES (seq_tradeinvehicles.nextval,'479 - 828 - 283',10,2017);
+
+
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('01/30/2017','MM/dd/YYYY'),22,7,4,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('03/19/2017','MM/dd/YYYY'),4,8,4,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('12/26/2016','MM/dd/YYYY'),24,7,12,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('01/30/2017','MM/dd/YYYY'),33,4,7,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('10/31/2016','MM/dd/YYYY'),13,15,2,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('08/10/2017','MM/dd/YYYY'),6,15,6,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('04/20/2017','MM/dd/YYYY'),32,6,1,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('11/21/2016','MM/dd/YYYY'),28,20,9,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('03/20/2017','MM/dd/YYYY'),29,20,5,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('11/17/2016','MM/dd/YYYY'),33,1,3,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('11/17/2016','MM/dd/YYYY'),46,8,14,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('10/17/2016','MM/dd/YYYY'),24,12,15,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('03/19/2017','MM/dd/YYYY'),1,13,2,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('09/29/2017','MM/dd/YYYY'),13,19,2,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('01/28/2017','MM/dd/YYYY'),28,8,3,'3000');
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","salesperson_id","license_feed") VALUES (seq_invoices.nextval,TO_DATE('03/01/2017','MM/dd/YYYY'),21,14,6,'3000');
+
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","tradeinvehicle_id","license_feed","salesperson_id") VALUES (seq_invoices.nextval,TO_DATE('07/05/2017','MM/dd/YYYY'),17,11,12,'3000',12);
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","tradeinvehicle_id","license_feed","salesperson_id") VALUES (seq_invoices.nextval,TO_DATE('06/14/2017','MM/dd/YYYY'),20,8,13,'3000',4);
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","tradeinvehicle_id","license_feed","salesperson_id") VALUES (seq_invoices.nextval,TO_DATE('06/21/2017','MM/dd/YYYY'),24,6,12,'3000',13);
+INSERT INTO "Invoices" ("id","date","vehicle_id","customer_id","tradeinvehicle_id","license_feed","salesperson_id") VALUES (seq_invoices.nextval,TO_DATE('10/27/2016','MM/dd/YYYY'),31,18,9,'3000',9);
+
+/*
+SELECT A."id" ID_Factura 
+FROM "Invoices" A INNER JOIN "Vehicles" B ON A."vehicle_id" = B."id"
+WHERE B."type" = 'New'
+ORDER BY A."id"
+*/
+
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,12,18);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,12,9);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,12,19);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,12,22);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,18,4);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,18,3);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,18,15);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,9,23);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,9,30);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,9,14);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,9,6);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,20,13);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,17,8);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,17,27);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,17,20);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,17,28);
+INSERT INTO "Invoice_Details" ("id","invoice_id","option_id") VALUES (seq_invoicedetails.nextval,17,2);
+
+-- REALIZAMOS LOS CÁLCULOS DE LOS VALORES DE LA FACTURA
+
+UPDATE "Invoices" A
+SET 
+A."subtotal" = 
+CASE
+	WHEN A."tradeinvehicle_id" IS NULL THEN
+	(SELECT B."price" FROM "Vehicles" B WHERE B."id" = A."vehicle_id")
+	ELSE
+	((SELECT B."price"  FROM "Vehicles" B WHERE B."id" = A."vehicle_id")-(SELECT B."price_allowed" FROM "Tradein_Vehicles" B WHERE B."id" = A."tradeinvehicle_id"))
+END,
+A."taxes" = (A."subtotal" * 0.07),
+A."total_options" = (SELECT COALESCE(SUM(C."price"),0) FROM "Invoice_Details" B INNER JOIN "Options" C on B."option_id" = C."id" WHERE B."invoice_id" = A."id"),
+A."total" = (A."subtotal" + A."taxes" + A."total_options");
