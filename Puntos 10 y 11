@@ -1,0 +1,121 @@
+/*
+10. Create tables with its columns according to your normalization. Create sequences for every primary
+key. Create primary and foreign keys. Insert at least 50 vehicles, 20 customers, 20 invoices (Go to
+http://www.generatedata.com/). This should be a functional single script (.sql) (Better if you generate
+sql through sql developer) (1.0)
+*/
+
+-- CREATING TABLES 
+
+CREATE TABLE "Salespersons" (
+"id" NUMBER NOT NULL ,
+"code" VARCHAR2(255) NULL ,
+"name" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Trademarks" (
+"id" NUMBER NOT NULL ,
+"name" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Models" (
+"id" NUMBER NOT NULL ,
+"trademark_id" NUMBER NOT NULL ,
+"description" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Manufacturers" (
+"id" NUMBER NOT NULL ,
+"name" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Option_Types" (
+"id" NUMBER NOT NULL ,
+"description" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Options" (
+"id" NUMBER NOT NULL ,
+"code" VARCHAR2(255) NULL ,
+"type_id" NUMBER NOT NULL ,
+"cost" DECIMAL(15,2) NULL ,
+"price" DECIMAL(15,2) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Customers" (
+"id" NUMBER NOT NULL ,
+"name" VARCHAR2(255) NULL ,
+"address" VARCHAR2(255) NULL ,
+"phone_number" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Vehicles" (
+"id" NUMBER NOT NULL ,
+"vin" VARCHAR2(255) NULL ,
+"name" VARCHAR2(255) NULL ,
+"model_id" NUMBER NOT NULL ,
+"year" NUMBER NULL ,
+"manufacturer_id" NUMBER NOT NULL ,
+"type" VARCHAR2(255) NULL ,
+"cost" DECIMAL(15,2) NULL ,
+"price" DECIMAL(15,2) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Tradein_Vehicles" (
+"id" NUMBER NOT NULL ,
+"serial_number" VARCHAR2(255) NULL ,
+"model_id" NUMBER NOT NULL ,
+"year" NUMBER NULL ,
+"price_allowed" DECIMAL(15,2) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+DROP TABLE "Invoices";
+CREATE TABLE "Invoices" (
+"id" NUMBER NOT NULL ,
+"date" TIMESTAMP (2) WITH LOCAL TIME ZONE NOT NULL ,
+"vehicle_id" NUMBER NOT NULL,
+"customer_id" NUMBER NOT NULL ,
+"salesperson_id" NUMBER NOT NULL ,
+"tradeinvehicle_id" NUMBER NULL ,
+"subtotal" DECIMAL(15,2) NULL ,
+"taxes" DECIMAL(15,2) NULL ,
+"license_feed" DECIMAL(15,2) NULL ,
+"total_options" DECIMAL(15,2) NULL ,
+"total" DECIMAL(15,2) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Invoice_Details" (
+"id" NUMBER NOT NULL ,
+"invoice_id" NUMBER NOT NULL ,
+"option_id" NUMBER NOT NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+-- CREATING FOREING KEYS
+
+ALTER TABLE "Invoices" ADD CONSTRAINT "fk_Vehicles_Invoices" FOREIGN KEY ("vehicle_id") REFERENCES "Vehicles" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoices" ADD CONSTRAINT "fk_Salespersons_Invoices" FOREIGN KEY ("salesperson_id") REFERENCES "Salespersons" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoices" ADD CONSTRAINT "fk_Customers_Invoices" FOREIGN KEY ("customer_id") REFERENCES "Customers" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoices" ADD CONSTRAINT "fk_TradeinVehicles_Invoices" FOREIGN KEY ("tradeinvehicle_id") REFERENCES "Tradein_Vehicles" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoice_Details" ADD CONSTRAINT "fk_Invoice_Details_Options" FOREIGN KEY ("invoice_id") REFERENCES "Invoices" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoice_Details" ADD CONSTRAINT "fk_Invoices_Invoice_Details" FOREIGN KEY ("option_id") REFERENCES "Options" ("id") ON DELETE CASCADE;
+ALTER TABLE "Options" ADD CONSTRAINT "fk_Option_Types_Options" FOREIGN KEY ("type_id") REFERENCES "Option_Types" ("id") ON DELETE CASCADE;
+ALTER TABLE "Vehicles" ADD CONSTRAINT "fk_Manufacturers_Vehicles" FOREIGN KEY ("manufacturer_id") REFERENCES "Manufacturers" ("id") ON DELETE CASCADE;
+ALTER TABLE "Vehicles" ADD CONSTRAINT "fk_Models_Vehicles" FOREIGN KEY ("model_id") REFERENCES "Models" ("id") ON DELETE CASCADE;
+ALTER TABLE "Models" ADD CONSTRAINT "fk_Trademarks_Models" FOREIGN KEY ("trademark_id") REFERENCES "Trademarks" ("id") ON DELETE CASCADE;
+ALTER TABLE "Tradein_Vehicles" ADD CONSTRAINT "fk_Models_TradeinVehicles" FOREIGN KEY ("model_id") REFERENCES "Models" ("id") ON DELETE CASCADE;
+
+
+-- CREATING VALIDATION CHECK CONSTRAINT
+
+ALTER TABLE "Vehicles" ADD CONSTRAINT "CK_Type_Vehicle" CHECK ("type" IN ('New','Used'));
