@@ -78,7 +78,6 @@ CREATE TABLE "Tradein_Vehicles" (
 PRIMARY KEY ("id")
 ) TABLESPACE gofar_travel;
 
-DROP TABLE "Invoices";
 CREATE TABLE "Invoices" (
 "id" NUMBER NOT NULL ,
 "date" TIMESTAMP (2) WITH LOCAL TIME ZONE NOT NULL ,
