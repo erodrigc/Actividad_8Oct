@@ -399,3 +399,21 @@ END,
 A."taxes" = (A."subtotal" * 0.07),
 A."total_options" = (SELECT COALESCE(SUM(C."price"),0) FROM "Invoice_Details" B INNER JOIN "Options" C on B."option_id" = C."id" WHERE B."invoice_id" = A."id"),
 A."total" = (A."subtotal" + A."taxes" + A."total_options");
+
+-11 RMAN BACKUP
+ssh root@localhost -p 49160
+ pass: admin
+ set oracle_sid=xe
+ rman TARGET SYS/
+ pass: oracle
+
+SHOW ALL;
+CONFIGURE RETENTION POLICY TO RECOVERY WINDOW OF 3 DAYS;
+
+run 
+{
+  shutdown immediate
+  startup mount
+  BACKUP AS BACKUPSET DATABASE PLUS ARCHIVELOG;
+}
+
