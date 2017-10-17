@@ -1,4 +1,4 @@
-# Actividad_8Oct
+﻿# Actividad_8Oct
 /*
 2. Create 3 Tablespaces (0.2)​:
 a. first one with 1 Gb and 3 datafiles, tablespace should be named "gofar_travel"
@@ -28,3 +28,109 @@ CREATE UNDO TABLESPACE UNDOTBS DATAFILE '/u01/app/oracle/oradata/XE/undotbs_01.d
 3. Set the undo tablespace to be used in the system (0.2)
 */
 ALTER SYSTEM SET UNDO_TABLESPACE = UNDOTBS;
+
+
+
+
+/*
+4. Create a DBA user and assign it to the tablespace called "gofar_travel", this user has unlimited space
+on the tablespace (0.2)
+*/
+-- CREACION DE USUARIO usr_gt
+CREATE USER usr_gt 
+IDENTIFIED BY pwd_gt
+DEFAULT TABLESPACE gofar_travel
+QUOTA UNLIMITED ON gofar_travel;
+
+
+/*
+5. Assign the dba role and permissions to connect to the user just created (0.2)
+*/
+
+GRANT CONNECT, DBA TO usr_gt;
+
+
+
+
+/*
+6. Create 3 profiles. (0.2)
+a. Profile 1: "manager" password life 40 days, one session per user, 15 minutes idle, 4 failed
+login attempts
+b. Profile 2: "finance" password life 15 days, one session per user, 3 minutes idle, 2 failed login
+attempts
+c. Profile 3: "development" password life 100 days, two session per user, 30 minutes idle, no
+failed login attempts
+*/
+-- a.
+CREATE PROFILE manager LIMIT 
+	PASSWORD_LIFE_TIME 40
+  SESSIONS_PER_USER  1 
+  IDLE_TIME 15
+	FAILED_LOGIN_ATTEMPTS 4; 
+
+--b.
+CREATE PROFILE finance LIMIT 
+	PASSWORD_LIFE_TIME 15
+  SESSIONS_PER_USER  1 
+  IDLE_TIME 3
+	FAILED_LOGIN_ATTEMPTS 2;
+ 
+--c.
+CREATE PROFILE development LIMIT 
+	PASSWORD_LIFE_TIME 100
+  SESSIONS_PER_USER  2 
+  IDLE_TIME 30
+	FAILED_LOGIN_ATTEMPTS UNLIMITED; 
+
+
+
+
+/*
+7. Create 4 users, assign them the tablespace "gofar_travel"; profiles created should be used for the
+users, all the users should be allow to connect to the database. (0.2)
+*/
+CREATE USER user1_manager 
+    IDENTIFIED BY pwd_user1 
+    DEFAULT TABLESPACE gofar_travel 
+    QUOTA 10M ON gofar_travel 
+    PROFILE manager 
+    PASSWORD EXPIRE;
+GRANT CONNECT TO user1_manager;
+
+CREATE USER user2_finance 
+    IDENTIFIED BY pwd_user2 
+    DEFAULT TABLESPACE gofar_travel 
+    QUOTA 10M ON gofar_travel 
+    PROFILE finance 
+    PASSWORD EXPIRE;
+GRANT CONNECT TO user2_finance;
+
+CREATE USER user3_development 
+    IDENTIFIED BY pwd_user3
+    DEFAULT TABLESPACE gofar_travel 
+    QUOTA 10M ON gofar_travel 
+    PROFILE development 
+    PASSWORD EXPIRE;
+GRANT CONNECT TO user3_development;
+
+CREATE USER user4_development 
+    IDENTIFIED BY pwd_user4
+    DEFAULT TABLESPACE gofar_travel 
+    QUOTA 10M ON gofar_travel 
+    PROFILE development 
+    PASSWORD EXPIRE;
+GRANT CONNECT TO user4_development;
+
+/*
+8. Lock the users associate with profiles: manager and finance. (0.2)
+*/
+ALTER USER user1_manager ACCOUNT LOCK;
+ALTER USER user2_finance ACCOUNT LOCK;
+
+
+/*
+9. Delete the tablespace called "test_purposes" (0.2)
+*/
+DROP TABLESPACE test_purposes 
+INCLUDING CONTENTS 
+CASCADE CONSTRAINTS; 
