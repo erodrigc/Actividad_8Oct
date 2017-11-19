@@ -1,0 +1,31 @@
+-- Punto 2
+-- Creamos el campo de units_available para la tabla de accesorios, y manufacturer para satisfacer la vista del punto 3
+
+
+ALTER TABLE "SYSTEM"."Options" DROP CONSTRAINT "fk_Option_Types_Options";
+
+DROP TABLE "SYSTEM"."Option_Types";
+
+ALTER TABLE "SYSTEM"."Options" DROP("type_id");
+
+
+ALTER TABLE "SYSTEM"."Options"
+ADD ( "type" VARCHAR2(255) NOT NULL)
+ADD ( "manufacturer_id" NUMBER NULL  ) 
+ADD ( "units_available" NUMBER DEFAULT 30  NULL  ) ;
+
+TRUNCATE TABLE "Options";
+
+
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'HB198897','Estufa','6113','13455',7,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'EA198898','Extintor','7480','13026',6,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'HB198899','Nevera','8918','10552',7,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'HB198900','Microondas','8821','10281',7,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'SN198547','Televisor','8310','13363',10,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'MB198124','Nevera','8918','10552',9,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'LG198753','Estufa','6113','13455',8,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'LG198951','Microondas','8821','10281',8,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'LA198258','Iluminación Especial','6113','13455',11,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'LG198832','Televisor','8310','13363',8,30);
+INSERT INTO "Options" ("id","code","type","cost","price","manufacturer","units_available") VALUES (seq_options.nextval,'CT198124','Mejores Asientos','6113','13455',5,30);
+
