@@ -1,0 +1,37 @@
+4. Create a trigger which decreases the number of units available after the product has been associated
+to​ ​ one​ ​ bill.​ ​ (0.5)
+*/
+
+
+CREATE OR REPLACE TRIGGER "decrease_units_accesories" AFTER INSERT
+   ON "Invoice_Details"
+   FOR EACH ROW		
+BEGIN
+	UPDATE  "Options" A
+	SET A."units_available" = A."units_available" - 1
+	WHERE A."id" = :new."option_id";
+END;
+
+
+/*
+5. Create a procedure called "reorder_units", inside the procedure you should call the view created in the
+step #3, for each element returned, the value of "units_available" should be increased in 20 units by
+default.​ ​ (0.5)
+*/
+
+CREATE OR REPLACE PROCEDURE reorder_units AS
+BEGIN
+  UPDATE  "Options" A
+	SET A."units_available" = A."units_available" + 20
+	WHERE A."id" IN (SELECT "id" FROM "Accesories_Low_Units");
+END;
+
+-- PROBAMOS EL PROCEDIMIENTO CREADO 
+
+BEGIN
+  reorder_units;
+END;
+
+
+--- CREAMOS LA VISTA PARA EL DETALLE DE LAS FACTURAS
+/*

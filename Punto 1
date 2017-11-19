@@ -1,0 +1,426 @@
+/*
+2. Create 3 Tablespaces (0.2)​:
+a. first one with 1 Gb and 3 datafiles, tablespace should be named "gofar_travel"
+b. second one with 500 Mb and 1 datafile, named "test_purposes".
+c. Undo tablespace with 5Mb of space and 1 datafile
+*/
+
+-- a.
+CREATE TABLESPACE gofar_travel DATAFILE '/u01/app/oracle/oradata/XE/gofar_travel01.dbf' SIZE 333M
+    EXTENT MANAGEMENT LOCAL 
+    SEGMENT SPACE MANAGEMENT AUTO;
+
+ALTER TABLESPACE gofar_travel 
+	ADD DATAFILE '/u01/app/oracle/oradata/XE/gofar_travel02.dbf' SIZE 333M;
+
+ALTER TABLESPACE gofar_travel 
+	ADD DATAFILE '/u01/app/oracle/oradata/XE/gofar_travel03.dbf' SIZE 333M;
+
+--b.
+CREATE TABLESPACE test_purposes DATAFILE '/u01/app/oracle/oradata/XE/test_purposes01.dbf' SIZE 500M
+    EXTENT MANAGEMENT LOCAL 
+    SEGMENT SPACE MANAGEMENT AUTO;
+--c.
+CREATE UNDO TABLESPACE UNDOTBS DATAFILE '/u01/app/oracle/oradata/XE/undotbs_01.dbf' SIZE 5M;
+
+/*
+3. Set the undo tablespace to be used in the system (0.2)
+*/
+ALTER SYSTEM SET UNDO_TABLESPACE = UNDOTBS;
+
+
+/*
+4. Create a DBA user and assign it to the tablespace called "gofar_travel", this user has unlimited space
+on the tablespace (0.2)
+*/
+-- CREACION DE USUARIO usr_gt
+CREATE USER usr_gt 
+IDENTIFIED BY pwd_gt
+DEFAULT TABLESPACE gofar_travel
+QUOTA UNLIMITED ON gofar_travel
+;
+
+
+/*
+5. Assign the dba role and permissions to connect to the user just created (0.2)
+*/
+
+GRANT CONNECT, DBA TO usr_gt;
+
+
+/*
+6. Create 3 profiles. (0.2)
+a. Profile 1: "manager" password life 40 days, one session per user, 15 minutes idle, 4 failed
+login attempts
+b. Profile 2: "finance" password life 15 days, one session per user, 3 minutes idle, 2 failed login
+attempts
+c. Profile 3: "development" password life 100 days, two session per user, 30 minutes idle, no
+failed login attempts
+*/
+-- a.
+CREATE PROFILE manager LIMIT 
+	PASSWORD_LIFE_TIME 40
+  SESSIONS_PER_USER  1 
+  IDLE_TIME 15
+	FAILED_LOGIN_ATTEMPTS 4; 
+
+--b.
+CREATE PROFILE finance LIMIT 
+	PASSWORD_LIFE_TIME 15
+  SESSIONS_PER_USER  1 
+  IDLE_TIME 3
+	FAILED_LOGIN_ATTEMPTS 2;
+ 
+--c.
+CREATE PROFILE development LIMIT 
+	PASSWORD_LIFE_TIME 100
+  SESSIONS_PER_USER  2 
+  IDLE_TIME 30
+	FAILED_LOGIN_ATTEMPTS UNLIMITED; 
+
+/*
+7. Create 4 users, assign them the tablespace "gofar_travel"; profiles created should be used for the
+users, all the users should be allow to connect to the database. (0.2)
+*/
+CREATE USER user1_manager 
+    IDENTIFIED BY pwd_user1 
+    DEFAULT TABLESPACE gofar_travel 
+    QUOTA 10M ON gofar_travel 
+    PROFILE manager 
+    PASSWORD EXPIRE;
+GRANT CONNECT TO user1_manager;
+
+CREATE USER user2_finance 
+    IDENTIFIED BY pwd_user2 
+    DEFAULT TABLESPACE gofar_travel 
+    QUOTA 10M ON gofar_travel 
+    PROFILE finance 
+    PASSWORD EXPIRE;
+GRANT CONNECT TO user2_finance;
+
+CREATE USER user3_development 
+    IDENTIFIED BY pwd_user3
+    DEFAULT TABLESPACE gofar_travel 
+    QUOTA 10M ON gofar_travel 
+    PROFILE development 
+    PASSWORD EXPIRE;
+GRANT CONNECT TO user3_development;
+
+CREATE USER user4_development 
+    IDENTIFIED BY pwd_user4
+    DEFAULT TABLESPACE gofar_travel 
+    QUOTA 10M ON gofar_travel 
+    PROFILE development 
+    PASSWORD EXPIRE;
+GRANT CONNECT TO user4_development;
+
+/*
+8. Lock the users associate with profiles: manager and finance. (0.2)
+*/
+ALTER USER user1_manager ACCOUNT LOCK;
+ALTER USER user2_finance ACCOUNT LOCK;
+
+
+/*
+9. Delete the tablespace called "test_purposes" (0.2)
+*/
+DROP TABLESPACE test_purposes 
+INCLUDING CONTENTS 
+CASCADE CONSTRAINTS; 
+
+
+/*
+10. Create tables with its columns according to your normalization. Create sequences for every primary
+key. Create primary and foreign keys. Insert at least 50 vehicles, 20 customers, 20 invoices (Go to
+http://www.generatedata.com/). This should be a functional single script (.sql) (Better if you generate
+sql through sql developer) (1.0)
+*/
+
+-- CREATING TABLES 
+
+CREATE TABLE "Salespersons" (
+"id" NUMBER NOT NULL ,
+"code" VARCHAR2(255) NULL ,
+"name" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Trademarks" (
+"id" NUMBER NOT NULL ,
+"name" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Models" (
+"id" NUMBER NOT NULL ,
+"trademark_id" NUMBER NOT NULL ,
+"description" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Manufacturers" (
+"id" NUMBER NOT NULL ,
+"name" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+
+CREATE TABLE "Option_Types" (
+"id" NUMBER NOT NULL ,
+"description" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Options" (
+"id" NUMBER NOT NULL ,
+"code" VARCHAR2(255) NULL ,
+"type_id" NUMBER NOT NULL ,
+"cost" DECIMAL(15,2) NULL ,
+"price" DECIMAL(15,2) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Customers" (
+"id" NUMBER NOT NULL ,
+"name" VARCHAR2(255) NULL ,
+"address" VARCHAR2(255) NULL ,
+"phone_number" VARCHAR2(255) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Vehicles" (
+"id" NUMBER NOT NULL ,
+"vin" VARCHAR2(255) NULL ,
+"name" VARCHAR2(255) NULL ,
+"model_id" NUMBER NOT NULL ,
+"year" NUMBER NULL ,
+"manufacturer_id" NUMBER NOT NULL ,
+"type" VARCHAR2(255) NULL ,
+"cost" DECIMAL(15,2) NULL ,
+"price" DECIMAL(15,2) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Tradein_Vehicles" (
+"id" NUMBER NOT NULL ,
+"serial_number" VARCHAR2(255) NULL ,
+"model_id" NUMBER NOT NULL ,
+"year" NUMBER NULL ,
+"price_allowed" DECIMAL(15,2) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Invoices" (
+"id" NUMBER NOT NULL ,
+"date" TIMESTAMP (2) WITH LOCAL TIME ZONE NOT NULL ,
+"vehicle_id" NUMBER NOT NULL,
+"customer_id" NUMBER NOT NULL ,
+"salesperson_id" NUMBER NOT NULL ,
+"tradeinvehicle_id" NUMBER NULL ,
+"subtotal" DECIMAL(15,2) NULL ,
+"taxes" DECIMAL(15,2) NULL ,
+"license_feed" DECIMAL(15,2) NULL ,
+"total_options" DECIMAL(15,2) NULL ,
+"total" DECIMAL(15,2) NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+CREATE TABLE "Invoice_Details" (
+"id" NUMBER NOT NULL ,
+"invoice_id" NUMBER NOT NULL ,
+"option_id" NUMBER NOT NULL ,
+PRIMARY KEY ("id")
+) TABLESPACE gofar_travel;
+
+-- CREATING FOREING KEYS
+
+ALTER TABLE "Invoices" ADD CONSTRAINT "fk_Vehicles_Invoices" FOREIGN KEY ("vehicle_id") REFERENCES "Vehicles" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoices" ADD CONSTRAINT "fk_Salespersons_Invoices" FOREIGN KEY ("salesperson_id") REFERENCES "Salespersons" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoices" ADD CONSTRAINT "fk_Customers_Invoices" FOREIGN KEY ("customer_id") REFERENCES "Customers" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoices" ADD CONSTRAINT "fk_TradeinVehicles_Invoices" FOREIGN KEY ("tradeinvehicle_id") REFERENCES "Tradein_Vehicles" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoice_Details" ADD CONSTRAINT "fk_Invoice_Details_Options" FOREIGN KEY ("invoice_id") REFERENCES "Invoices" ("id") ON DELETE CASCADE;
+ALTER TABLE "Invoice_Details" ADD CONSTRAINT "fk_Invoices_Invoice_Details" FOREIGN KEY ("option_id") REFERENCES "Options" ("id") ON DELETE CASCADE;
+ALTER TABLE "Options" ADD CONSTRAINT "fk_Option_Types_Options" FOREIGN KEY ("type_id") REFERENCES "Option_Types" ("id") ON DELETE CASCADE;
+ALTER TABLE "Vehicles" ADD CONSTRAINT "fk_Manufacturers_Vehicles" FOREIGN KEY ("manufacturer_id") REFERENCES "Manufacturers" ("id") ON DELETE CASCADE;
+ALTER TABLE "Vehicles" ADD CONSTRAINT "fk_Models_Vehicles" FOREIGN KEY ("model_id") REFERENCES "Models" ("id") ON DELETE CASCADE;
+ALTER TABLE "Models" ADD CONSTRAINT "fk_Trademarks_Models" FOREIGN KEY ("trademark_id") REFERENCES "Trademarks" ("id") ON DELETE CASCADE;
+ALTER TABLE "Tradein_Vehicles" ADD CONSTRAINT "fk_Models_TradeinVehicles" FOREIGN KEY ("model_id") REFERENCES "Models" ("id") ON DELETE CASCADE;
+
+
+-- CREATING VALIDATION CHECK CONSTRAINT
+
+ALTER TABLE "Vehicles" ADD CONSTRAINT "CK_Type_Vehicle" CHECK ("type" IN ('New','Used'));
+
+-- CREATING SEQUENCES
+
+
+CREATE SEQUENCE seq_vehicles START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_customers START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_tradeinvehicles START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_options START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_models START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_manufacturers START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_trademarks START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_invoicedetails START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_salespersons START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_invoices START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE seq_optiontypes START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+
+
+-- INSERTING RECORDS
+
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Wade Rogers','P.O. Box 901, 9811 Massa. Av.','222-3050');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Brenden Rivers','5306 A, Rd.','214-1886');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Mollie Dean','981 Metus Av.','503-0322');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Ashton Harrison','Ap #964-5256 At Ave','927-8063');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Hayden Riddle','2214 Lacinia. Road','595-3878');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Nigel Becker','1541 Purus. Rd.','379-2271');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Gloria Franks','Ap #274-8772 Nullam Road','059-0346');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Honorato Dyer','9331 Odio Avenue','309-0159');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Brandon Chang','Ap #341-1239 Pharetra. Av.','891-7511');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Jana Bridges','P.O. Box 635, 2717 Lectus. St.','790-8130');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Vera Small','932-7567 Non, Rd.','699-8144');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Kibo Blevins','874-9717 Ut, Rd.','228-8423');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Colt Potter','150-4994 Dolor Rd.','623-8891');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Joshua Mcpherson','1762 Metus. Avenue','066-9756');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Noelle Jones','P.O. Box 284, 9935 Non, Rd.','195-1584');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Jelani Jones','P.O. Box 366, 849 Urna Road','659-0421');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Victor Olsen','1070 Rhoncus. Av.','843-6213');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Sawyer Mays','5790 Consequat, St.','423-8422');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Merritt Rosario','199 Auctor St.','326-6826');
+INSERT INTO "Customers" ("id","name","address","phone_number") VALUES (seq_customers.nextval,'Reed Wheeler','P.O. Box 150, 7792 Eu Rd.','913-8308');
+
+--SELECT * FROM "Customers";
+
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Mazda');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Renault');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Chevrolet');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Kia');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Ford');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Toyota');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Volswagen');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'BMW');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Audi');
+INSERT INTO "Trademarks" ("id","name") VALUES (seq_trademarks.nextval, 'Pegout');
+
+--SELECT * FROM "Trademarks";
+
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '323');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '3');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '626');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '6');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 1, '2');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 2, 'Twingo');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 2, 'ClÃ­o');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 3, 'Spark');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 3, 'Spark GT');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 3, 'Aveo');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 4, 'RÃ­o');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 4, 'Space');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 5, 'Prado');
+INSERT INTO "Models" ("id","trademark_id","description") VALUES (seq_models.nextval, 6, 'Gol');
+
+--SELECT * FROM "Models";
+
+INSERT INTO "Manufacturers" ("id","name") VALUES (seq_manufacturers.nextval, 'Casa Britanica');
+INSERT INTO "Manufacturers" ("id","name") VALUES (seq_manufacturers.nextval, 'Colmotores');
+INSERT INTO "Manufacturers" ("id","name") VALUES (seq_manufacturers.nextval, 'Sofasa');
+INSERT INTO "Manufacturers" ("id","name") VALUES (seq_manufacturers.nextval, 'Colombiana Automotriz');
+
+--SELECT * FROM "Manufacturers";
+
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'176167 -9248','Basil Trujillo');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'837473 -6133','Imelda Bullock');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'939552 -9234','Dale Walls');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'978689 -5798','Rafael Curtis');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'445542 -2461','Carlos Barry');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'868612 -8052','Molly Oneill');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'887238 -9278','Jemima Leonard');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'497239 -8269','Nola Gonzales');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'802422 -6519','Isabella Bridges');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'639468 -2220','Isabella Ward');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'477279 -4220','Linda Murphy');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'339868 -1688','Cleo Moody');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'294921 -6440','Zahir Allen');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'849694 -6743','Maggie Doyle');
+INSERT INTO "Salespersons" ("id","code","name") VALUES (seq_salespersons.nextval,'629206 -9611','Ashton Rodriquez');
+
+--SELECT * FROM "Salespersons";
+
+
+
+
+
+-- Modificamos el Modelo Para almacenar todos los vehículos en la tabla vehicles
+
+ALTER TABLE "SYSTEM"."Tradein_Vehicles"
+ADD ( "vehicle_id" NUMBER NULL  ) ;
+
+ALTER TABLE "SYSTEM"."Tradein_Vehicles" DROP("model_id", "year");
+
+ALTER TABLE "SYSTEM"."Tradein_Vehicles" ADD CONSTRAINT "fk_Vehicles_TradeinVehicles" FOREIGN KEY ("vehicle_id") REFERENCES "SYSTEM"."Vehicles" ("id") ON DELETE CASCADE;
+
+ALTER TABLE "SYSTEM"."Invoices" DROP CONSTRAINT "fk_TradeinVehicles_Invoices";
+
+ALTER TABLE "SYSTEM"."Invoices" ADD CONSTRAINT "fk_TradeinVehicles_Invoices" FOREIGN KEY ("tradeinvehicle_id") REFERENCES "SYSTEM"."Vehicles" ("id") ON DELETE CASCADE;
+
+-- Utilizaremos la tabla Manufacturers tanto para fabricantes de vehículos como para fabricantes de accesorios, el campo Type servirá para diferenciarlo
+ALTER TABLE "SYSTEM"."Manufacturers" ADD ( "type" VARCHAR2(255) NULL  ) ;
+
+
+-- Punto 1
+
+-- Creamos la nueva tabla para llevar el histórico de los Vehículos
+
+CREATE TABLE "SYSTEM"."Historical_Vehicles" (
+"id" NUMBER NOT NULL ,
+"date" TIMESTAMP (2) WITH LOCAL TIME ZONE NOT NULL ,
+"vehicle_id" NUMBER NULL ,
+"invoice_id" NUMBER NULL ,
+"Transaction" VARCHAR2(255) NULL 
+) TABLESPACE gofar_travel;
+
+
+-- Agregamos las claves foráneas a la tabla de vehículos y de facturas
+ALTER TABLE "SYSTEM"."Historical_Vehicles" ADD CONSTRAINT "fk_Vehicles_Historical_Vehicle" 
+
+FOREIGN KEY ("vehicle_id") REFERENCES "SYSTEM"."Vehicles" ("id") ON DELETE CASCADE;
+
+ALTER TABLE "SYSTEM"."Historical_Vehicles" ADD CONSTRAINT "fk_Invoices_Historical_Vehicle" 
+
+FOREIGN KEY ("invoice_id") REFERENCES "SYSTEM"."Invoices" ("id") ON DELETE CASCADE;
+
+
+-- Agregamos la validación para el campo de Tipo de transacción, para admitir solo los tres valores
+
+ALTER TABLE "SYSTEM"."Historical_Vehicles" ADD CONSTRAINT "CK_Transaction_Hist_Vehicle" CHECK 
+
+("Transaction" IN ('New','Trade','Sold'));
+
+-- Creamos la secuencia autoincrementable de a 1 para el id de la tabla historical_vehicles
+
+CREATE SEQUENCE seq_historicalvehicles START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+
+-- Creamos los Triggers para actualizar la tabla de Historical_Vehicles con cada interacción que la afecte.
+
+CREATE OR REPLACE TRIGGER "historical_vehicles_invoices" AFTER INSERT
+   ON "Invoices"
+   FOR EACH ROW		
+BEGIN
+	INSERT INTO "Historical_Vehicles" ("id", "date", "vehicle_id", "invoice_id", "Transaction") 
+	VALUES (seq_historicalvehicles.nextval, :new."date", :new."vehicle_id", :new."id", 'Sold');
+
+IF (:new."tradeinvehicle_id" IS NOT NULL) THEN
+				INSERT INTO "Historical_Vehicles" ("id", "date", "vehicle_id", "invoice_id", "Transaction") 
+		VALUES (seq_historicalvehicles.nextval, :new."date", :new."tradeinvehicle_id", :new."id", 'Trade');
+	END IF;
+END;
+
+
+CREATE OR REPLACE TRIGGER "historical_vehicles_vehicles"  AFTER INSERT
+   ON "Vehicles"
+   FOR EACH ROW		
+BEGIN
+	INSERT INTO "Historical_Vehicles" ("id", "date", "vehicle_id", "invoice_id", "Transaction") 
+	VALUES (seq_historicalvehicles.nextval, SYSDATE, :new."id", null, 'New');
+END;
